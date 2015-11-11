@@ -2,6 +2,7 @@
 
 import sys
 import datetime
+import numpy as np
 
 CoordRec_list = []
 
@@ -22,6 +23,12 @@ def read_cts_file(ct):
             line = buf.readline()
 
 #s0 is set to be equal to 1
+#Trying to adjust the optimal line (type : y = a*x + b) in data.
+
+def optimal_line(C):
+    C = np.array(cr_list)
+    dl = C [ : , 5: ]
+    
 
 def compute_average_x(cr_list):
     sum_of_x = 0
@@ -46,13 +53,6 @@ def compute_average_z(cr_list):
         sum_of_z = sum_of_z + (i.z() * (1 / i.sz()))
         Pi = Pi + ( 1 / i.sz())
     return sum_of_z / Pi
-
-#Adjusting optimal line in data x,y: y = a*x +b
-
-def compute_optimal_line(cr_list):
-    dl = matrix()
-
-
 
 class CoordRec:
 
@@ -98,6 +98,7 @@ y_mean = compute_average_y(CoordRec_list)
 print 'Average value of y = %10.3f'%(y_mean)
 z_mean = compute_average_z(CoordRec_list)
 print 'Average value of z = %10.3f'%(z_mean)
+
 
 
 
