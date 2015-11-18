@@ -25,11 +25,24 @@ def read_cts_file(ct):
 #s0 is set to be equal to 1
 #Trying to adjust the optimal line (type : y = a*x + b) in data.
 
-def optimal_line(cr_list):
-    C = np.array(cr_list)
-    dl = C[5]
-    #print(C[0,5])
+#def optimal_line(cr_list):
+#    C = np.array(cr_list)
+#    l = 0
+#    A = 0
+#    P = np.identity(6, dtype = float)
+#    for i in cr_list:
+#        l = l + np.array([i.y()], dtype = float)
+#        A = A + np.array([i.x(), 1], dtype = float)
+#        P = P * (1/i.sx())
     
+    #l = C[5]
+    # print(C[:, :5])
+    
+def matrix_A(cr_list):
+    A = 0
+    for i in cr_list:
+        A = A + np.array([i.x(), 1], float)
+    return A
 
 def compute_average_x(cr_list):
     sum_of_x = 0
@@ -99,10 +112,12 @@ y_mean = compute_average_y(CoordRec_list)
 print 'Average value of y = %10.3f'%(y_mean)
 z_mean = compute_average_z(CoordRec_list)
 print 'Average value of z = %10.3f'%(z_mean)
-dl = optimal_line(CoordRec_list)
-print 'matrix dl is = %s'%(dl)
-
-
+#l = optimal_line(CoordRec_list)
+#print 'matrix l is = %s'%(l)
+A = matrix_A(CoordRec_list)
+print 'matrix A is = %s'%(A)
+#P = optimal_line(CoordRec_list)
+#print 'matrix P is = %s'%(P)
 
 
 
