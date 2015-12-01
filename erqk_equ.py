@@ -30,11 +30,13 @@ def read_sta_file(sta):
     is used by FODITS. Muser is the magnitude given by the user.'''
     
 def dist_sta(sta_list):
-    X_epi = 0
-    Y_epi = 0
     derq = 0
     Merq1 = 0
     Merq2 = 0
+    Muser = float(raw_input('Enter magnitude of earthquake'))
+    X_epi = float(raw_input('Enter X coordinate of epicenter'))
+    Y_epi = float(raw_input('Enter Y coordinate of epicenter'))
+                    
     for i in sta_list():
         derq = sqrt(pow((X_epi - i.x()), 2) + pow((Y_epi - i_y()), 2))
         Merq1 = -6.40 + 2.17 * log10(derq)
@@ -77,6 +79,8 @@ derq = dist_sta(Stacoord_list)
 print ' Station distance from the epicenter is %10.3f =' %(derq)
 Merq1 = dist_sta(Stacoord_list)
 Merq2 = dist_sta(Stacoord_list)
-
+print 'Muser is %10.3f = ' %(Muser)
+print 'X_epi is %10.3f = ' %(X_epi)
+print 'Y_epi is %10.3f = ' %(Y_epi)
 
 
