@@ -36,11 +36,11 @@ def read_cts_file(ct):
 #        P = P * (1/i.sx())
     
     #l = C[5]
-    # print(C[:, :5])
-    
+        
 def matrix_A(cr_list):
-    A = 0
+    A = 0 
     for i in cr_list:
+#        A = A + np.append([i.x(), 1],[i.x(), 1], axis = 0)
         A = A + np.array([i.x(), 1], float)
     return A
 
