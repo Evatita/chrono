@@ -36,19 +36,20 @@ def dist_sta(sta_list):
     Muser = float(raw_input('Enter magnitude of earthquake'))
     X_epi = float(raw_input('Enter X coordinate of epicenter'))
     Y_epi = float(raw_input('Enter Y coordinate of epicenter'))
+    Z_epi = float(raw_input('Enter Z coordinate of epicenter'))
                     
     for i in sta_list():
-        derq = sqrt(pow((X_epi - i.x()), 2) + pow((Y_epi - i_y()), 2))
+        derq = sqrt(pow((X_epi - i.x()), 2) + pow((Y_epi - i_y()), 2) + pow((Z_epi - i.z()), 2)) 
         Merq1 = -6.40 + 2.17 * log10(derq)
         Merq2 = -5.60 + 2.17 * log10(derq)
+        sta = Station_list(l[0], float(l[1]), float(l[2]), float(l[3]))
         
         if Muser >= Merq1:
-            Merq1_list.append()
+            Merq1_list.append(sta)
         else :
-            Merq2_list.append()
+            Merq2_list.append(sta)
             
     return 
-
 
 class Station_list:
 
@@ -82,5 +83,5 @@ Merq2 = dist_sta(Stacoord_list)
 print 'Muser is %10.3f = ' %(Muser)
 print 'X_epi is %10.3f = ' %(X_epi)
 print 'Y_epi is %10.3f = ' %(Y_epi)
-
+print 'Z_epi is %10.3f = ' %(Z_epi)
 
