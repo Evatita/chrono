@@ -25,7 +25,7 @@ def read_sta_file(sta):
                 print 'Invalid line: [%s]; line skipped'%(line)
         line = buf.readline()                                                     
     
-''' In this step, the distance derq is given by stations coordinates X and Y from sta_list, and coordinates of earthquake epicenter
+''' The distance derq is given by stations coordinates X and Y from sta_list, and coordinates of earthquake epicenter
     are given by the user. Next step, the equations for choosing the stations. Equation Merq1 is according to Delle Donne and Merq2 
     is used by FODITS. Muser is the magnitude given by the user.'''
     
@@ -49,7 +49,7 @@ def dist_sta(sta_list):
         else :
             Merq2_list.append(sta)
             
-    return 
+    return derq
 
 class Station_list:
 
