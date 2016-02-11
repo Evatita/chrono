@@ -1,6 +1,6 @@
 #! /usr/bin/python
 
-import os, sys
+import os, sys, re
 import datetime as dt
 import numpy as np
 
@@ -20,37 +20,41 @@ def read_evl(evl_file):
     sU      = []
     
     line = buf.readline()
-    while line:
-      if not line[0] == '-':
-        l = line.split()
-        station       = l[0]
-        evl_peri      = l[1]
-        period        = l[15]
-        residualn     = l[16]
-        residuale     = l[17]
-        residualu     = l[18]
-        l = buf.readline().split()
-        station       = l[0]
-        evl_rate      = l[1]
-        epoch_rate    = l[3] + '-' + l[4] + '-' + l[5] + ':' + int(l[6])*3600 + int(l[7])*60 + int(l[8])
-        residualn     = l[16]
-        residuale     = l[17]
-        residualu     = l[18]
-        l = buf.readline().split()
-        station       = l[0]
-        evl_disc      = l[1]
-        epoch_disc    = l[3] + '-' + l[4] + '-' + l[5] + ':' + int(l[6])*3600 + int(l[7])*60 + int(l[8])
-        residualn     = l[16]
-        residuale     = l[17]
-        residualu     = l[18]
-        l = buf.readline().split()
-        station       = l[0]
-        evl_out       = l[1]
-        epoch_start   = l[3] + '-' + l[4] + '-' + l[5] + ':' + int(l[6])*3600 + int(l[7])*60 + int(l[8])
-        epoch_end     = l[9] + '-' + l[10] + '-' + l[11] + ':' + int(l[12])*3600 + int(l[13])*60 + int(l[14])
-        residualn     = l[16]
-        residuale     = l[17]
-        residualu     = l[18]
+    for line in buf.readline():
+      if re.search(' %s ' %(station), line):
+        l = line[0:116].split()
+        if re.search(' %s ' %('EST PERI'), line):
+          station       = l[0]
+          evl_peri      = l[1]
+          period        = l[15]
+          residualn     = l[16]
+          residuale     = l[17]
+          residualu     = l[18]
+          l = buf.readline().split()
+        elif re.search(' %s ' %('EST RATE'), line):
+          station       = l[0]
+          evl_rate      = l[1]
+          epoch_rate    = l[3] + '-' + l[4] + '-' + l[5] + ':' + int(l[6])*3600 + int(l[7])*60 + int(l[8])
+          residualn     = l[16]
+          residuale     = l[17]
+          residualu     = l[18]
+          l = buf.readline().split()
+        elif re.search(' %s ' %('EST DISC'), line) :
+          station       = l[0]
+          evl_disc      = l[1]
+          epoch_disc    = l[3] + '-' + l[4] + '-' + l[5] + ':' + int(l[6])*3600 + int(l[7])*60 + int(l[8])
+          residualn     = l[16]
+          residuale     = l[17]
+          residualu     = l[18]
+          l = buf.readline().split()
+        else re.search(' %s ' %('EST OUT'), line):
+          station       = l[0]
+          evl_out       = l[1]
+          epoch_start   = l[3] + '-' + l[4] + '-' + l[5] + ':' + int(l[6])*3600 + int(l[7])*60 + int(l[8])
+          epoch_end     = l[9] + '-' + l[10] + '-' + l[11] + ':' + int(l[12])*3600 + int(l[13])*60 + int(l[14])
+          residualn     = l[16]
+          residuale     = l[17]
+          residualu     = l[18]
         if evl_peri == evl_rate or evl_peri == evl_disc:
           raise RuntimeError("Invalid EVL format (events)")
         events.append(evl_peri, evl_rate, evl_disc, evl_out)
@@ -60,5 +64,6 @@ def read_evl(evl_file):
         line = buf.readline()
         
 evl_file = sys.argv[1]
+station  = sys.argv[2]
 
 sys.exit(0)
