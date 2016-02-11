@@ -3,6 +3,7 @@
 import os, sys, re
 import datetime as dt
 import numpy as np
+import matplotlib.pyplot as plt
 
 ## EVL file contains the events from FODITS analysis, i.e. periodic functions, velocities changes,
 ## discontinuties and decteted outliers, with the following format:
@@ -21,7 +22,7 @@ def read_evl(evl_file):
     
     line = buf.readline()
     for line in buf.readline():
-      if re.search(' %s ' %(station), line):
+      while re.search(' %s ' %(station), line):
         l = line[0:116].split()
         if re.search(' %s ' %('EST PERI'), line):
           station       = l[0]
@@ -47,7 +48,7 @@ def read_evl(evl_file):
           residuale     = l[17]
           residualu     = l[18]
           l = buf.readline().split()
-        else re.search(' %s ' %('EST OUT'), line):
+        elif re.search(' %s ' %('EST OUT'), line):
           station       = l[0]
           evl_out       = l[1]
           epoch_start   = l[3] + '-' + l[4] + '-' + l[5] + ':' + int(l[6])*3600 + int(l[7])*60 + int(l[8])
@@ -55,14 +56,28 @@ def read_evl(evl_file):
           residualn     = l[16]
           residuale     = l[17]
           residualu     = l[18]
+          return
         if evl_peri == evl_rate or evl_peri == evl_disc:
           raise RuntimeError("Invalid EVL format (events)")
         events.append(evl_peri, evl_rate, evl_disc, evl_out)
+        epochs.append(epoch_rate, epoch_disc, epoch_start, epoch_end)
         sN.append(residualn)
         sE.append(residuale)
         sU.append(residualu)
         line = buf.readline()
-        
+ '''       
+def evl_plot(read_evl, y_erbar= False):
+  min_dt = dt.date(2000, 01, 01)
+  max_dt = dt.date(2016, 01, 01)
+  
+  fig, axs = plt.subplots(3, sharex=True )
+  axs[0].set_xlim( min_dt, max_dt )
+  
+  if not y_erbar:
+    axs[0].plotdate(dates, opens ,fmt='-')
+  else:
+    axs[0].errorbar(dates)
+  '''  
 evl_file = sys.argv[1]
 station  = sys.argv[2]
 
